@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>Add Song</title>
+    <link href="CSS/Welcome.css" rel="stylesheet" type="text/css" />
+    <link href="CSS/bootstrap.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body style="background-image: url('Img/home-background.jpg');background-repeat: no-repeat;background-attachment: fixed;background-size: cover;">
+    <div>
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand">Home</a>
+              <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+    </div>
+    <div style="padding-left:90px;padding-right:50px;padding-top:30px;">
+        <h2>Adding a New Song</h2>
+        <br>
+        <table>
+            <tr>
+                <td style="padding-right:50px;">
+                    Song Name:
+                </td>
+                <td>
+                    <input class="form-control me-2" type="text" placeholder="Enter Song Name" id="txtsname">
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right:50px;padding-top:15px">
+                    Date of Release:
+                </td>
+                <td style="padding-top:15px">
+                    <input class="form-control me-2" type="date" id="txtsdate">
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right:50px;padding-top:15px">
+                   Artwork:
+                </td>
+                <td style="padding-top:15px">
+                    <input type="file" id="artwork"  accept="image/png, image/jpeg, image/jpg">
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right:50px;padding-top:15px">
+                   Artists:
+                </td>
+                <td style="padding-top:15px">
+                    <select id="artissts" class="form-control me-2">
+                        
+                    </select>
+                </td>
+                <td style="padding-top:15px;padding-left:10px;">
+                    <button class="btn btn-dark" id="btnsave" type="submit">Add Artist</button>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-right:50px;padding-top:30px;padding-left:50px;">
+                    <button class="btn btn-danger" id="btncancel" type="submit">Cancel</button>
+                 </td>
+                 <td style="padding-top:30px;padding-left:50px;">
+                    <button class="btn btn-success" id="btnsave" type="submit">Save</button>
+                 </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
