@@ -1,11 +1,5 @@
 <?php
-    $hostname="localhost";
-    $dbname="despotify";
-    $username="root";
-    $password="";
-
-    $connect = mysqli_connect($hostname,$username,$password,$dbname);
-
+    include 'db.php';
     $info=json_decode(file_get_contents("php://input"));
     $Artist_name = mysqli_real_escape_string($connect,$info->artistname);
     $DOB = mysqli_real_escape_string($connect,$info->dob);
