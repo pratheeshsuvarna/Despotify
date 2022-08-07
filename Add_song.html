@@ -10,11 +10,26 @@
     <link href="CSS/multiselect-checkbox.css" rel="stylesheet">
     <script>
         var app = angular.module("myartist", []);
-        app.controller("artistcont", function ($scope, $http) {
+        app.directive("fileInput", function ($parse) {
+            return {
+                link: function ($scope, element, attrs) {
+                    element.on("change", function (event) {
+                        var files = event.target.files;
+                        $parse(attrs.fileInput).assign($scope, element[0].files);
+                        $scope.$apply();
+                    });
+                }
+            }
+        });
+        app.controller("artistcont", function ($scope, $http, $filter) {
+            $scope.Display = function () {
+            }
             $scope.insert_artist = function () {
+                var dob = $filter('date')
+                    ($scope.dob, 'yyyy/MM/dd');
                 $http.post('insert_artist.php', {
                     'artistname': $scope.artistname,
-                    'dob': $scope.dob,
+                    'dob': dob,
                     'bio': $scope.bio
 
                 })
@@ -32,14 +47,46 @@
                     });
             }
             $scope.insert_song = function () {
-                var message = [];
+                var artname = "";
+                var artid = [];
                 for (var i = 0; i < $scope.artists.length; i++) {
                     if ($scope.artists[i].Selected) {
+                        var aid = $scope.artists[i].Aid;
+                        artid.push(aid);
                         var aname = $scope.artists[i].Artist_name;
-                        message.push(aname)
+                        if (artname == "") {
+                            artname = artname + aname;
+                        }
+                        else {
+                            artname = artname + "," + aname;
+                        }
                     }
                 }
-                console.log(message)
+                var dor = $filter('date')
+                    ($scope.dor, 'yyyy/MM/dd');
+                $http.post('insert_song.php', {
+                    'songname': $scope.songname,
+                    'dor': dor,
+                    'artid': artid,
+                    'artname': artname,
+                })
+                    .success(function (data) {
+                        alert(data);
+                        $scope.insert_image();
+                    });
+            }
+            $scope.insert_image = function () {
+                var form_data = new FormData();
+                angular.forEach($scope.files, function (file) {
+                    form_data.append('file', file);
+                });
+                $http.post('upload_image.php', form_data,
+                    {
+                        transformRequest: angular.identity,
+                        headers: { 'Content-Type': undefined, 'Process-Data': false }
+                    }).success(function (response) {
+                        location.reload();
+                    });
             }
 
         });
@@ -82,6 +129,7 @@
             </div>
         </nav>
     </div>
+    
     <div id="divsong" style="padding-left:90px;padding-right:50px;padding-top:30px;">
         <h2>Adding a New Song</h2>
         <br>
@@ -91,7 +139,8 @@
                     Song Name:
                 </td>
                 <td>
-                    <input class="form-control me-2" type="text" placeholder="Enter Song Name" id="txtsname">
+                    <input class="form-control me-2" type="text" name="sname" ng-model="songname" placeholder="Enter Song Name"
+                        id="txtsname" required>
                 </td>
             </tr>
             <tr>
@@ -99,7 +148,7 @@
                     Date of Release:
                 </td>
                 <td style="padding-top:15px">
-                    <input class="form-control me-2" type="date" id="txtsdate">
+                    <input class="form-control me-2" ng-model="dor" type="date" id="txtsdate">
                 </td>
             </tr>
             <tr>
@@ -107,7 +156,9 @@
                     Artwork:
                 </td>
                 <td style="padding-top:15px">
-                    <input class="form-control" type="file" id="artwork" accept="image/png, image/jpeg, image/jpg">
+                    <label for="artwork" class="form-label">Upload Image</label>
+                    <input class="form-control" type="file" id="artwork" file-input="files"
+                        accept="image/png, image/jpeg, image/jpg">
                 </td>
             </tr>
             <tr>
@@ -117,14 +168,15 @@
                 <td style="padding-top:15px">
                     <div class="multipleSelection" ng-init="loadartist()">
                         <div class="selectBox" onclick="showCheckboxes()">
-                            <select>
+                            <select class="form-select">
                                 <option>Select options</option>
                             </select>
                             <div class="overSelect"></div>
                         </div>
                         <div id="checkBoxes">
-                            <label  ng-repeat="artist in artists" for="{{artist.Artist_Name}}">
-                                <input type="checkbox" id="{{artist.Aid}}" ng-model="artist.Selected" value="{{artist.Artist_name}}">
+                            <label ng-repeat="artist in artists" for="{{artist.Artist_Name}}">
+                                <input type="checkbox" id="{{artist.Aid}}" ng-model="artist.Selected"
+                                    value="{{artist.Artist_name}}">
                                 {{artist.Artist_name}}
                             </label>
                         </div>
