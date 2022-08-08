@@ -2,7 +2,7 @@
 Spotify like Website
 
 ## Info
-This Project is a mini project of Spotify like website.
+This Project is a mini project of Spotify like website using Angularjs and PHP.
 
 ## Steps
 You can download the zip file and place it in the root or server directory.
