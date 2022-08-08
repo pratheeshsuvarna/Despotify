@@ -6,13 +6,13 @@ This Project is a mini project of Spotify like website.
 
 ## Steps
 You can download the zip file and place it in the root or server directory.
-I'm using phpmyadmin as server, so the files are placed on the location mentioned below
+I'm using phpmyadmin as server, so the zip file is extracted on the location mentioned below
 
 Path: **C:\xampp\htdocs**
 
-And Import the sql scripts file present in the repository and ron server and run the scripts
+Import the sql scripts file present in the repository on your server.
 
-After Creating database and it's tables in the server you can run the project in the browser by mentioning:
+After Creating database and it's tables in the server you can run the project in the browser by typing:
 * **localhost/Despotify-master/welcome.html**
 
 
