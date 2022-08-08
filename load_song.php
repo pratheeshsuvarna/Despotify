@@ -6,5 +6,5 @@
  while ($row = mysqli_fetch_array($result)) {
     $output[] = array("Sid"=>$row['Sid'],"sname"=>$row['sname'],"dor"=>$row['dor'],"artwork"=>$row['artwork'],"artists"=>$row['artists']);
    }
- echo json_encode($output);  
+ echo json_encode($output);
  ?>  

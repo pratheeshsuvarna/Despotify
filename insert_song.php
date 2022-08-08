@@ -29,7 +29,7 @@ if (mysqli_query($connect, $query)) {
             $query3="UPDATE artists SET songs=CONCAT(songs,',$songname') WHERE  Aid= $value";
             mysqli_query($connect, $query3);
         }
-        $rating=0;
+        $rating=1;
         $aid=(int)$value;
         $query4 = "INSERT INTO asrating(Sid,Aid,Ratings) VALUES('$sid','$aid','$rating')";
         mysqli_query($connect, $query4);
