@@ -14,6 +14,26 @@ if (mysqli_query($connect, $query)) {
     while ($row = mysqli_fetch_array($result)) {
         $output = $row['Sid'];
     }
+    $sid = (int)$output;
+    foreach ($artid as $value) {
+        $query2 = "SELECT songs FROM artists WHERE Aid= $value;";
+        $result2 = mysqli_query($connect, $query2);
+        while ($row2 = mysqli_fetch_array($result2)) {
+            $output2 = $row2['songs'];
+        }
+        if($output2==""){
+            $query3="UPDATE artists SET songs='$songname' WHERE  Aid= $value";
+            mysqli_query($connect, $query3);
+        }
+        else{
+            $query3="UPDATE artists SET songs=CONCAT(songs,',$songname') WHERE  Aid= $value";
+            mysqli_query($connect, $query3);
+        }
+        $rating=0;
+        $aid=(int)$value;
+        $query4 = "INSERT INTO asrating(Sid,Aid,Ratings) VALUES('$sid','$aid','$rating')";
+        mysqli_query($connect, $query4);
+    }   
 } else {
     echo 'Error';
 }

@@ -3,9 +3,32 @@
 <head>
   <title>Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script>
+    var fetch = angular.module('myapp', []);
+    fetch.controller('myctrl', ['$scope', '$http', function ($scope, $http) {
+      $http({
+        method: 'get',
+        url: 'load_song.php'
+      }).then(function successCallback(response) {
+        // Store response data
+        $scope.songs = response.data;
+      });
+      $http({
+        method: 'get',
+        url: 'load_artist.php'
+      }).then(function successCallback(response) {
+        // Store response data
+        $scope.artists = response.data;
+      });
+    }]);
+  </script>
 </head>
 
-<body
+<body ng-app="myapp" ng-controller="myctrl"
   style="background-image: url('Img/home-background.jpg');background-repeat: no-repeat;background-attachment: fixed;background-size: cover;">
   <div>
     <nav class="navbar navbar-dark bg-dark">
@@ -31,88 +54,48 @@
       </tr>
     </table>
     <br>
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <table class="table">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Artwork</th>
+            <th scope="col">Song</th>
+            <th scope="col">Date of Release</th>
+            <th scope="col">Artists</th>
+            <th scope="col">Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="song in songs">
+            <td><img ng-src="Img/{{song.artwork}}" width="200" height="200" /> </td>
+            <td style="font-size:16px;font-family:'Arial Black'">{{song.sname}}</td>
+            <td style="font-size:16px;font-family:'Arial Black'">{{song.dor | date}}</td>
+            <td style="font-size:16px;font-family:'Arial Black'">{{song.artists}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <br>
     <h3>Top 10 Artists</h3>
     <br>
     <table class="table">
-      <thead>
+      <thead class="table-dark">
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col">Artists</th>
+          <th scope="col">Date of Birth</th>
+          <th scope="col">Bio</th>
+          <th scope="col">Songs</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
+        <tr ng-repeat="artist in artists">
+          <td style="font-size:16px;font-family:Arial, Helvetica, sans-serif"><b>{{artist.Artist_name}}</b></td>
+          <td style="font-size:16px;font-family:Arial, Helvetica, sans-serif"><b>{{artist.DOB}}</b></td>
+          <td style="font-size:16px;font-family:Arial, Helvetica, sans-serif"><b>{{artist.Bio}}</b></td>
+          <td style="font-size:16px;font-family:Arial, Helvetica, sans-serif"><b>{{artist.songs}}</b></td>
         </tr>
       </tbody>
     </table>
   </div>
 </body>
-
 </html>

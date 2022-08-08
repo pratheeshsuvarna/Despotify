@@ -1,10 +1,10 @@
 <?php  
  include 'db.php';  
  $output = array();  
- $query = "SELECT * FROM artists";  
+ $query = "SELECT * FROM list_song";  
  $result = mysqli_query($connect, $query);  
  while ($row = mysqli_fetch_array($result)) {
-    $output[] = array("Aid"=>$row['Aid'],"Artist_name"=>$row['Artist_name'],"DOB"=>$row['DOB'],"Bio"=>$row['Bio'],"songs"=>$row['songs']);
+    $output[] = array("Sid"=>$row['Sid'],"sname"=>$row['sname'],"dor"=>$row['dor'],"artwork"=>$row['artwork'],"artists"=>$row['artists']);
    }
  echo json_encode($output);  
  ?>  

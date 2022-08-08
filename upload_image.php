@@ -14,14 +14,7 @@ while ($row = mysqli_fetch_array($result)) {
        if(move_uploaded_file($_FILES['file']['tmp_name'], $path))  
        {  
             $Query = "UPDATE list_song SET artwork='".$_FILES['file']['name']."' WHERE Sid = $output";  
-            if(mysqli_query($connect, $Query))  
-            {  
-                 
-            }  
-            else  
-            {  
-                 
-            }  
+            mysqli_query($connect, $Query);
        }  
   }  
   else  

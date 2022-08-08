@@ -10,6 +10,7 @@
     <link href="CSS/multiselect-checkbox.css" rel="stylesheet">
     <script>
         var app = angular.module("myartist", []);
+        //This directive used to upload the image in the folder
         app.directive("fileInput", function ($parse) {
             return {
                 link: function ($scope, element, attrs) {
@@ -21,7 +22,9 @@
                 }
             }
         });
+
         app.controller("artistcont", function ($scope, $http, $filter) {
+            //this function is used to insert artist
             $scope.insert_artist = function () {
                 var dob = $filter('date')
                     ($scope.dob, 'yyyy/MM/dd');
@@ -37,16 +40,20 @@
                         $scope.dob = null;
                         $scope.bio = null;
                     });
+                
             }
+            //this function is used to loadartist into the dropdownlist
             $scope.loadartist = function () {
                 $http.post("load_artist.php")
                     .success(function (data) {
                         $scope.artists = data;
                     });
             }
+            //this function is used to insert the songs
             $scope.insert_song = function () {
                 var artname = "";
                 var artid = [];
+                //this for loop is used to retrieve the select checkboxes
                 for (var i = 0; i < $scope.artists.length; i++) {
                     if ($scope.artists[i].Selected) {
                         var aid = $scope.artists[i].Aid;
@@ -60,6 +67,11 @@
                         }
                     }
                 }
+                //this if loop alert will trigger if there is no checkboxes is selected
+                if(artid.length==0){
+                    alert("Please Select option from the artists list")
+                }
+                else{
                 var dor = $filter('date')
                     ($scope.dor, 'yyyy/MM/dd');
                 $http.post('insert_song.php', {
@@ -72,7 +84,9 @@
                         alert(data);
                         $scope.insert_image();
                     });
+                }
             }
+            //this function is used to insert image to database
             $scope.insert_image = function () {
                 var form_data = new FormData();
                 angular.forEach($scope.files, function (file) {
@@ -86,10 +100,10 @@
                         location.reload();
                     });
             }
-
         });
     </script>
     <script>
+        //this jquery function is used to load artist in the dropdownlist without reloading the page when popup add artist modal is closed
         $(document).ready(function () {
             $("#myModal").on('hidden.bs.modal', function () {
                 angular.element(document.getElementById('divsong')).scope().loadartist();
@@ -97,12 +111,46 @@
         });
     </script>
     <script>
+        //this function is used for validation on add artist page
+        function checkartform(){
+            var artname=document.getElementById("txtaname").value;
+            var adate=document.getElementById('txtadate').value;
+            var abio=document.getElementById('txtbio').value;
+            var CurrentDate = new Date();
+            var givendate = new Date(adate); 
+            if(artname==""||adate==""||abio==""){
+                alert("Please enter full details");
+            }
+            else if(givendate > CurrentDate){
+                alert("Please select proper date");
+            }
+            else{
+            angular.element(document.getElementById('myModal')).scope().insert_artist();
+            }
+        }
+        //this function is used for validation on add song page
+        function checksongform(){
+            var sname = document.getElementById("txtsname").value;
+            var dor = document.getElementById("txtsdate").value;
+            var CurrentDate = new Date();
+            var givendate = new Date(dor); 
+            var artwork = document.getElementById("artwork");
+            var files = artwork.files;
+            if(sname==""||dor==""||files.length==0){
+                alert("Please enter full details");
+            }
+            else if(givendate > CurrentDate){
+                alert("Please select proper date");
+            }
+            else{
+                angular.element(document.getElementById('divsong')).scope().insert_song();
+            }
+        }
+        //this function is used to display checboxes on the dropdownlist
         var show = true;
-
         function showCheckboxes() {
             var checkboxes =
                 document.getElementById("checkBoxes");
-
             if (show) {
                 checkboxes.style.display = "block";
                 show = false;
@@ -139,7 +187,7 @@
                 </td>
                 <td>
                     <input class="form-control me-2" type="text" name="sname" ng-model="songname" placeholder="Enter Song Name"
-                        id="txtsname" required>
+                        id="txtsname">
                 </td>
             </tr>
             <tr>
@@ -201,7 +249,7 @@
                                         <tr>
                                             <td style="padding-right:50px;">Artist Name:</td>
                                             <td><input class="form-control me-2" type="text"
-                                                    placeholder="Enter Artist Name" ng-model="artistname" id="txtaname">
+                                                    placeholder="Enter Artist Name" ng-model="artistname" id="txtaname" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -224,16 +272,17 @@
                                             </td>
                                         </tr>
                                     </table>
+                                
                                 </div>
 
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
                                     <button type="button" id="btncancel" ng-click="loadartist()" class="btn btn-danger"
                                         data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" id="btnasave" ng-click="insert_artist();"
+                                    <button type="submit" id="btnasave" onclick="checkartform();"
                                         class="btn btn-success">Save</button>
                                 </div>
-
+                            </form>
                             </div>
                         </div>
                     </div>
@@ -241,10 +290,10 @@
             </tr>
             <tr>
                 <td style="padding-right:50px;padding-top:30px;padding-left:50px;">
-                    <button class="btn btn-danger" id="btncancel">Cancel</button>
+                    <button class="btn btn-danger" onclick="window.location.href='Home.html'" id="btncancel">Cancel</button>
                 </td>
                 <td style="padding-top:30px;padding-left:50px;">
-                    <button class="btn btn-success" id="btnsave" type="submit" ng-click="insert_song()">Save</button>
+                    <button class="btn btn-success" id="btnsave" type="submit" onclick="checksongform()">Save</button>
                 </td>
             </tr>
         </table>
