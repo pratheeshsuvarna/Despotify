@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 08, 2022 at 05:20 PM
+-- Generation Time: Aug 09, 2022 at 11:13 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -41,14 +41,17 @@ CREATE TABLE `artists` (
 
 INSERT INTO `artists` (`Aid`, `Artist_name`, `DOB`, `Bio`, `songs`) VALUES
 (1, 'Arjith Singh', '2004-02-04', 'Hindi Singer', 'Tum hi Ho,Zaroorat'),
-(2, 'Sonu Nigam', '1990-06-13', 'Hindi Singer', 'Darshana,Believer'),
+(2, 'Sonu Nigam', '1990-06-13', 'Hindi Singer', 'Darshana,Believer,Tu meri'),
 (3, 'Charlie Puth', '1999-06-09', 'English Singer', 'Let me Love you,Don\'t Let me down'),
 (4, 'Justin Beiber', '2010-01-12', 'English Singer', 'Let me Love you,Believer'),
 (5, 'Weekend', '1993-02-04', 'English Singer', 'Binding Lights,Don\'t Let me down'),
 (6, 'Chandan Shetty', '1997-05-05', 'Kannad Rapper', '3 peg,Payana'),
 (7, 'Gurukiran', '1980-06-08', 'Kannada Singer', 'Kanasu,Payana'),
 (8, 'Arman Malik', '1990-05-20', 'Hindi Singer', 'Tum hi Ho,Darshana,Zaroorat'),
-(9, 'Vijay Shankar', '1995-06-08', 'Kannada Singer', 'Rajakumara');
+(9, 'Vijay Shankar', '1995-06-08', 'Kannada Singer', 'Rajakumara'),
+(10, 'Shreya Goshal', '1985-06-16', 'Hindi Singer', 'Akhiyan,Tu meri'),
+(11, 'Neha kakkar', '1980-05-09', 'Hindi SInger', 'Akhiyan'),
+(12, 'A. R. Rahman', '2022-03-11', 'Singer', 'Vande Mataram');
 
 -- --------------------------------------------------------
 
@@ -68,24 +71,29 @@ CREATE TABLE `asrating` (
 --
 
 INSERT INTO `asrating` (`RASid`, `Sid`, `Aid`, `Ratings`) VALUES
-(1, 1, 1, 1),
-(2, 1, 8, 1),
-(3, 2, 5, 1),
-(4, 3, 3, 1),
-(5, 3, 4, 1),
-(6, 4, 3, 1),
-(7, 4, 5, 1),
-(8, 5, 2, 1),
-(9, 5, 8, 1),
-(10, 6, 7, 1),
-(11, 7, 1, 1),
-(12, 7, 8, 1),
-(13, 8, 6, 1),
-(14, 9, 6, 1),
-(15, 9, 7, 1),
-(16, 10, 2, 1),
-(17, 10, 4, 1),
-(18, 11, 9, 1);
+(1, 1, 1, 5),
+(2, 1, 8, 5),
+(3, 2, 5, 4),
+(4, 3, 3, 3),
+(5, 3, 4, 3),
+(6, 4, 3, 3),
+(7, 4, 5, 3),
+(8, 5, 2, 4),
+(9, 5, 8, 4),
+(10, 6, 7, 2),
+(11, 7, 1, 4),
+(12, 7, 8, 4),
+(13, 8, 6, 4),
+(14, 9, 6, 4),
+(15, 9, 7, 4),
+(16, 10, 2, 3),
+(17, 10, 4, 3),
+(18, 11, 9, 2),
+(20, 12, 10, 2),
+(21, 12, 11, 2),
+(22, 13, 2, 2),
+(23, 13, 10, 2),
+(24, 14, 12, 5);
 
 -- --------------------------------------------------------
 
@@ -116,7 +124,10 @@ INSERT INTO `list_song` (`Sid`, `sname`, `dor`, `artwork`, `artists`) VALUES
 (8, '3 peg', '2005-02-06', 'art4.jpg', 'Chandan Shetty'),
 (9, 'Payana', '2006-04-05', 'art1.jpg', 'Chandan Shetty,Gurukiran'),
 (10, 'Believer', '2021-11-11', 'art2.jpg', 'Sonu Nigam,Justin Beiber'),
-(11, 'Rajakumara', '2022-05-05', 'art3.jpg', 'Vijay Shankar');
+(11, 'Rajakumara', '2022-05-05', 'art3.jpg', 'Vijay Shankar'),
+(12, 'Akhiyan', '2022-07-09', 'art2.jpg', 'Shreya Goshal,Neha kakkar'),
+(13, 'Tu meri', '2022-08-03', 'art4.jpg', 'Sonu Nigam,Shreya Goshal'),
+(14, 'Vande Mataram', '2022-01-07', 'art1.jpg', 'A. R. Rahman');
 
 --
 -- Indexes for dumped tables
@@ -150,19 +161,19 @@ ALTER TABLE `list_song`
 -- AUTO_INCREMENT for table `artists`
 --
 ALTER TABLE `artists`
-  MODIFY `Aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `asrating`
 --
 ALTER TABLE `asrating`
-  MODIFY `RASid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `RASid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `list_song`
 --
 ALTER TABLE `list_song`
-  MODIFY `Sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `Sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
