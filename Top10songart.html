@@ -6,30 +6,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.1/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <style>
-    .rating {
-      color: #a9a9a9;
-      margin: 0;
-      padding: 0;
-    }
-
-    ul.rating {
-      display: inline-block;
-    }
-
-    .rating li {
-      list-style-type: none;
-      display: inline-block;
-      padding: 1px;
-      text-align: center;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .rating .filled {
-      color: red;
-    }
-  </style>
   <script>
     var fetch = angular.module('myapp', []);
     fetch.controller('myctrl', ['$scope', '$http', function ($scope, $http) {
@@ -46,58 +22,9 @@
       }).then(function successCallback(response) {
         // Store response data
         $scope.artists = response.data;
+        console.log(response.data)
       });
-      $scope.rating = 0;
-      $scope.getSelectedRating = function (rating, Sid) {
-        $http.post('update_star.php', {
-          'Ratings': rating,
-          'Sid': Sid
-        })
-          .success(function (data) {
-            location.reload();
-          });
-      }
     }]);
-
-    fetch.directive('starRating', function () {
-      return {
-        restrict: 'A',
-        template: '<ul class="rating">' +
-          '<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
-          '\u2605' +
-          '</li>' +
-          '</ul>',
-        scope: {
-          ratingValue: '=',
-          max: '=',
-          onRatingSelected: '&'
-        },
-        link: function (scope, elem, attrs) {
-
-          var updateStars = function () {
-            scope.stars = [];
-            for (var i = 0; i < scope.max; i++) {
-              scope.stars.push({
-                filled: i < scope.ratingValue
-              });
-            }
-          };
-
-          scope.toggle = function (index) {
-            scope.ratingValue = index + 1;
-            scope.onRatingSelected({
-              rating: index + 1
-            });
-          };
-
-          scope.$watch('ratingValue', function (oldVal, newVal) {
-            if (newVal) {
-              updateStars();
-            }
-          });
-        }
-      }
-    });
   </script>
 </head>
 
@@ -118,12 +45,11 @@
     <table>
       <tr>
         <td>
-          <h3>All Songs</h3>
+          <h3>Top 10 Songs</h3>
         </td>
-        <td style="padding-left:950px;">
-          <button class="btn btn-dark" id="btnaddsong" onclick="window.location.href='Add_song.html'" type="submit">Add
-            Song</button>
-            <button class="btn btn-dark" id="btnallsongart" onclick="window.location.href='Top10songart.html'" type="submit">Top 10</button>
+        <td style="padding-left:980px;">
+          <button class="btn btn-dark" id="btnaddsong" onclick="window.location.href='Home.html'" type="submit">
+            Go Back</button>
         </td>
       </tr>
     </table>
@@ -140,21 +66,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="song in songs">
+          <tr ng-repeat="song in songs | orderBy : '-Ratings' | limitTo : 10">
             <td><img ng-src="Img/{{song.artwork}}" width="200" height="200" /> </td>
             <td style="font-size:16px;font-family:'Arial Black'">{{song.sname}}</td>
             <td style="font-size:16px;font-family:'Arial Black'">{{song.dor | date}}</td>
             <td style="font-size:16px;font-family:'Arial Black'">{{song.artists}}</td>
-            <td>
-              <div star-rating rating-value="song.Ratings" max="5"
-                on-rating-selected="getSelectedRating(rating,song.Sid)"></div>
+            <td style="font-size:16px;font-family:'Arial Black'">
+              {{song.Ratings}}
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <br>
-    <h3>All Artists</h3>
+    <h3>Top 10 Artists</h3>
     <br>
     <table class="table">
       <thead class="table-dark">
@@ -166,7 +91,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="artist in artists">
+        <tr ng-repeat="artist in artists | orderBy : '-Ratings' | limitTo : 10 ">
           <td style="font-size:16px;font-family:Arial, Helvetica, sans-serif"><b>{{artist.Artist_name}}</b></td>
           <td style="font-size:16px;font-family:Arial, Helvetica, sans-serif"><b>{{artist.DOB | date}}</b></td>
           <td style="font-size:16px;font-family:Arial, Helvetica, sans-serif"><b>{{artist.Bio}}</b></td>
@@ -176,5 +101,4 @@
     </table>
   </div>
 </body>
-
 </html>

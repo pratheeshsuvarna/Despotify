@@ -44,7 +44,7 @@
             }
             //this function is used to loadartist into the dropdownlist
             $scope.loadartist = function () {
-                $http.post("load_artist.php")
+                $http.post("loadArtistonCb.php")
                     .success(function (data) {
                         $scope.artists = data;
                     });
@@ -221,7 +221,7 @@
                             <div class="overSelect"></div>
                         </div>
                         <div id="checkBoxes">
-                            <label ng-repeat="artist in artists" for="{{artist.Artist_Name}}">
+                            <label ng-repeat="artist in artists" for="{{artist.Artist_name}}">
                                 <input type="checkbox" id="{{artist.Aid}}" ng-model="artist.Selected"
                                     value="{{artist.Artist_name}}">
                                 {{artist.Artist_name}}
