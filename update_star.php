@@ -6,14 +6,4 @@
     $nsid = (int)$Ratings;
     $query = "UPDATE asrating SET Ratings=$nsid WHERE Sid= $Sid";
     mysqli_query($connect, $query);
-    // $query="INSERT INTO artists(Artist_name,DOB,Bio) VALUES('$Artist_name','$DOB','$Bio')";
-
-    // if(mysqli_query($connect,$query))
-    // {
-    //     echo"Data inserted";
-    // }
-    // else
-    // {
-    //     echo'Error';
-    // }
 ?>
